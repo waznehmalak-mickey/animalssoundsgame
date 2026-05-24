@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Jeu des Animaux - Sons</title>
+    <style>
+        body {
+            background-color: #e6f7ff;
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            padding:  5 px 20px;
+        }
+
+        h1 {
+            color: #0288d1;
+        }
+
+        .instruction {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .play-btn {
+            background-color: #ffcc00;
+            border: 6px solid #fff;
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            font-size: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #ccaa00;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .play-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #ccaa00;
+        }
+
+        .animals-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .animal-card {
+            background: white;
+            border: 5px solid #0288d1;
+            border-radius: 20px;
+            padding: 10px 15px;
+            width: 130px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .animal-card:hover {
+            transform: scale(1.1);
+            background-color: #fff9c4;
+        }
+
+        .animal-icon {
+            font-size: 65px;
+            display: block;
+        }
+
+        #result-message {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 15px;
+            height: 40px;
+        }
+        
+        .footer-container {
+            text-align: center;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            color: #d6336c;
+            text-decoration: none; 
+            font-weight: bold;
+        }
+        
+        .btn-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Le Jeu des Animaux 🦁</h1>
+    <p class="instruction">Écoute le son et retrouve le bon animal !</p>
+
+    <button class="play-btn" onclick="playCurrentSound()">🔊</button>
+
+    <div class="animals-container">
+        <div class="animal-card" onclick="checkAnswer('lion')">
+            <span class="animal-icon">🦁</span>
+            <h3>Lion</h3>
+        </div>
+        <div class="animal-card" onclick="checkAnswer('dog')">
+            <span class="animal-icon">🐶</span>
+            <h3>Chien</h3>
+        </div>
+        <div class="animal-card" onclick="checkAnswer('cat')">
+            <span class="animal-icon">🐱</span>
+            <h3>Chat</h3>
+        </div>
+        <div class="animal-card" onclick="checkAnswer('cow')">
+            <span class="animal-icon">🐮</span>
+            <h3>Vache</h3>
+        </div>
+
+        <div class="animal-card" onclick="checkAnswer('elephant')">
+            <span class="animal-icon">🐘</span>
+            <h3>Éléphant</h3>
+        </div>
+        <div class="animal-card" onclick="checkAnswer('sheep')">
+            <span class="animal-icon">🐑</span>
+            <h3>Mouton</h3>
+        </div>
+        <div class="animal-card" onclick="checkAnswer('horse')">
+            <span class="animal-icon">🐎</span>
+            <h3>Cheval</h3>
+        </div>
+        <div class="animal-card" onclick="checkAnswer('fox')">
+            <span class="animal-icon">🦊</span>
+            <h3>Renard</h3>
+        </div>
+    </div>
+
+    <p id="result-message"></p>
+    
+   
+
+    <script>
+        const sounds = {
+            lion: new Audio('sound.mp3/lion.mp3'),
+            dog: new Audio('sound.mp3/dog.mp3'),
+            cat: new Audio('sound.mp3/cat.mp3'),
+            cow: new Audio('sound.mp3/cow.mp3'),
+            elephant: new Audio('sound.mp3/elephant.mp3'), 
+            sheep: new Audio('sound.mp3/sheep.mp3'),       
+            horse: new Audio('sound.mp3/horse.mp3'),      
+            fox: new Audio('sound.mp3/fox.mp3')            
+        };
+
+        const successSound = new Audio('sound.mp3/success.mp3');
+        const errorSound = new Audio('sound.mp3/error.mp3');
+
+        let currentAnimal = "";
+
+        function playCurrentSound() {
+            const animalKeys = Object.keys(sounds);
+            currentAnimal = animalKeys[Math.floor(Math.random() * animalKeys.length)];
+            sounds[currentAnimal].play();
+            document.getElementById('result-message').innerText = "Quel animal fait ce cri ?";
+            document.getElementById('result-message').style.color = "#333";
+        }
+
+        function checkAnswer(selected) {
+            const msg = document.getElementById('result-message');
+
+            if (currentAnimal === "") {
+                msg.innerText = "Appuie d'abord sur le haut-parleur ! 🔊";
+                return;
+            }
+
+            if (selected === currentAnimal) {
+                successSound.play();
+                msg.innerText = "Bravo ! C'est le bon animal ! 🎉";
+                msg.style.color = "#4caf50";
+                currentAnimal = "";
+            } else {
+                errorSound.play();
+                msg.innerText = "Oh non ! Réessaye encore ! ❌";
+                msg.style.color = "#f44336";
+            }
+        }
+    </script>
+</body>
+
+</html>
